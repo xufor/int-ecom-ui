@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavDropdown, Badge, Overlay, Popover } from 'react-bootstrap';
-import Select from 'react-select'
+import { Navbar, Nav, NavDropdown, Button, Badge, Overlay, Popover } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Select from 'react-select'
 
-import { categories } from './categoriesData';
+import { categories, brands, ratings, prices } from './selectionData';
 import './style.css';
 
 class ApplicationBar extends Component {
@@ -12,8 +12,12 @@ class ApplicationBar extends Component {
     this.state = {
       showCategoryOverlay: false,
       targetForOverlay: null,
+      selectedCategory: categories[0],
+      selectedBrands: null,
     };
     this.overlayContainerRef = React.createRef();
+    this.selectedRating = null;
+    this.selectedPrice = null;
   }
 
   onClickCategories = (event) => {
@@ -23,17 +27,64 @@ class ApplicationBar extends Component {
     });
   }
 
+  onCategoryChange = (event) => {
+    this.setState({ selectedCategory: event, selectedBrands: null });
+  }
+
+  onBrandChange = (event) => {
+    this.setState({ selectedBrands: event });
+  }
+
+  onRatingChange = (event) => {
+    this.selectedRating = event;
+    console.log(this.selectedPrice);
+    console.log(this.selectedRating);
+  }
+
+  onPriceChange = (event) => {
+    this.selectedPrice = event;
+  }
+
   categoriesOverlayMaker = () => {
     const selects = (
       <React.Fragment>
         <Select
-          defaultValue={[categories[0]]}
-          name={"colors"}
+          defaultValue={[this.state.selectedCategory]}
           options={categories}
-          className={"basic-multi-select"}
+          onChange={this.onCategoryChange}
+          className={"basic-multi-select categories-selects mb-1"}
           classNamePrefix={"select"}
-          id={"categories-selects"}
+          isSearchable
         />
+        <Select
+          isMulti
+          placeholder={"Select Brand"}
+          value={this.state.selectedBrands}
+          onChange={this.onBrandChange}
+          options={brands[this.state.selectedCategory.value]}
+          className={"basic-multi-select categories-selects mb-1"}
+          classNamePrefix="select"
+          isSearchable
+        />
+        <Select
+          placeholder={"Select Minimum Rating"}
+          options={ratings}
+          onChange={this.onRatingChange}
+          className={"basic-multi-select categories-selects mb-1"}
+          classNamePrefix={"select"}
+          isSearchable
+        />
+        <Select
+          placeholder={"Select Maximum Price"}
+          options={prices}
+          onChange={this.onPriceChange}
+          className={"basic-multi-select categories-selects mb-1"}
+          classNamePrefix={"select"}
+          isSearchable
+        />
+        <Button variant="success">
+          Apply
+        </Button>
       </React.Fragment>
     );
 
@@ -43,7 +94,7 @@ class ApplicationBar extends Component {
         placement={"bottom"}
         target={this.state.targetForOverlay}
         container={this.overlayContainerRef.current}
-        containerPadding={20}
+        containerPadding={10}
       >
         <Popover id={"popover-contained"}>
           <Popover.Content>
