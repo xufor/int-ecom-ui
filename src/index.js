@@ -2,13 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import { Provider } from 'react-redux';
+// import { createStore, applyMiddleware, compose } from 'redux';
+// import promise from 'redux-promise-middleware';
+// import { loadingBarMiddleware } from 'react-redux-loading-bar'
 import reportWebVitals from './reportWebVitals';
-import 'tachyons';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App />,
   document.getElementById('root')
 );
 

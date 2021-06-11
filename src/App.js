@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import ApplicationBar from './components/ApplicationBar/ApplicationBar';
-import { ThemeProvider } from '@material-ui/core';
-import theme from './theme';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+
 import './App.css';
+import HomePage from './components/HomePage/HomePage';
+import ApplicationBar from './components/ApplicationBar/ApplicationBar';
 
 class App extends Component {
   render() {
     return (
-      <ThemeProvider theme={theme}>
-        <React.Fragment>
+      <BrowserRouter>
           <ApplicationBar />
-        </React.Fragment>
-      </ThemeProvider>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Redirect to={"/"}/>
+          </Switch>
+      </BrowserRouter>
     );
   }
 }

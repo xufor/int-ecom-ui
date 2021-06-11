@@ -1,28 +1,107 @@
 import React, { Component } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
+import { Navbar, Nav, NavDropdown, Badge, Overlay, Popover } from 'react-bootstrap';
+import Select from 'react-select'
+import { Link } from 'react-router-dom';
+
+import { categories } from './categoriesData';
 import './style.css';
 
 class ApplicationBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showCategoryOverlay: false,
+      targetForOverlay: null,
+    };
+    this.overlayContainerRef = React.createRef();
+  }
+
+  onClickCategories = (event) => {
+    this.setState({
+      targetForOverlay: event.target,
+      showCategoryOverlay: !this.state.showCategoryOverlay
+    });
+  }
+
+  categoriesOverlayMaker = () => {
+    const selects = (
+      <React.Fragment>
+        <Select
+          defaultValue={[categories[0]]}
+          name={"colors"}
+          options={categories}
+          className={"basic-multi-select"}
+          classNamePrefix={"select"}
+          id={"categories-selects"}
+        />
+      </React.Fragment>
+    );
+
+    return (
+      <Overlay
+        show={this.state.showCategoryOverlay}
+        placement={"bottom"}
+        target={this.state.targetForOverlay}
+        container={this.overlayContainerRef.current}
+        containerPadding={20}
+      >
+        <Popover id={"popover-contained"}>
+          <Popover.Content>
+            {selects}
+          </Popover.Content>
+        </Popover>
+      </Overlay>
+    );
+  }
+
   render() {
     return (
-      <AppBar position="static" color="secondary">
-        <Toolbar className={"justify-between"}>
-          <img 
-          id={"app-bar-logo-image"} 
-          className={"mr1"} 
-          src={"assets/images/app-logo.svg"} 
-          alt={"app-logo"} 
-          />
-          <Button
-            variant="text"
-            color="inherit"
-          >
-            Login/Signup
-            </Button>
-        </Toolbar>
-      </AppBar>
+      <React.Fragment>
+        <Navbar bg="light" expand="lg" >
+          <Navbar.Brand>
+            <Link to="/">
+              <img
+                src="assets\images\app-logo.png"
+                width="207"
+                height="42"
+                className="d-inline-block align-top"
+                alt="app-logo"
+              />
+            </Link>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto" ref={this.overlayContainerRef}>
+              <Nav.Link as={"div"} ><Link to="/" className={"text-link"}>Home</Link></Nav.Link>
+              <Nav.Link as={"div"} id={'categories-text'} onClick={this.onClickCategories} >
+                Categories
+              </Nav.Link>
+              {this.categoriesOverlayMaker()}
+            </Nav>
+            <Nav.Link as={"div"}>
+              <Link to={"cart"} className={"text-link"}>
+                <Badge>
+                  <img
+                    src="assets\images\cart.png"
+                    width="20"
+                    height="20"
+                    className="d-inline-block align-top"
+                    alt="app-logo"
+                  />
+                </Badge>
+                <Badge>9</Badge>
+              </Link>
+            </Nav.Link>
+            <Nav>
+              <NavDropdown title="Account" id="basic-nav-dropdown">
+                <NavDropdown.Item>Login</NavDropdown.Item>
+                <NavDropdown.Item>Profile</NavDropdown.Item>
+                <NavDropdown.Item>Logout</NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </React.Fragment>
     );
   }
 }
