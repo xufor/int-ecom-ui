@@ -1,0 +1,1 @@
+export const remote = "http://localhost:8080";
