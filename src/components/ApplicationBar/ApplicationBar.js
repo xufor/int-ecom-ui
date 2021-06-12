@@ -52,6 +52,18 @@ class ApplicationBar extends Component {
     this.setState({ selectedPrice: event });
   }
 
+  onLoginSignupInputChange = (event) => {
+    this.setState({ [event.target.id]: event.target.value });
+  }
+
+  invertShowLoginModal = () => {
+    this.setState({ showLoginModal: !this.state.showLoginModal });
+  }
+
+  invertShowSignupModal = () => {
+    this.setState({ showSignupModal: !this.state.showSignupModal });
+  }
+
   categoriesOverlayMaker = () => {
     const selects = (
       <React.Fragment>
@@ -112,18 +124,6 @@ class ApplicationBar extends Component {
         </Popover>
       </Overlay>
     );
-  }
-
-  onLoginSignupInputChange = (event) => {
-    this.setState({ [event.target.id]: event.target.value });
-  }
-
-  invertShowLoginModal = () => {
-    this.setState({ showLoginModal: !this.state.showLoginModal });
-  }
-
-  invertShowSignupModal = () => {
-    this.setState({ showSignupModal: !this.state.showSignupModal });
   }
 
   loginModalMaker = () => {
@@ -209,7 +209,7 @@ class ApplicationBar extends Component {
           />
         </Form.Group>
         <Form.Group controlId={"signupDob"}>
-          <Form.Label>Date of Birthb</Form.Label>
+          <Form.Label>Date of Birth</Form.Label>
           <Form.Control type={"date"}
             onChange={this.onLoginSignupInputChange}
             value={this.state.signupDob}
