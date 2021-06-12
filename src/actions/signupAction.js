@@ -1,12 +1,12 @@
 import ax from 'axios';
 import { remote } from './commonData';
 
-export const GET_JWT = 'GET_JWT';
+export const SIGN_UP = 'SIGN_UP';
 
 
-export const fetchUserCredentials = ({ email, password }) => {
+export const signupAction = ({ email, password }) => {
 	const responseFromServer = ax.request({
-		url: '/signin',
+		url: '/signup',
 		baseURL: remote,
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
@@ -17,7 +17,7 @@ export const fetchUserCredentials = ({ email, password }) => {
 	});
 
 	return {
-	    type: GET_JWT,
+	    type: SIGN_UP,
         payload: responseFromServer,
     }
 };
