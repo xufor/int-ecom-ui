@@ -70,36 +70,34 @@ class ApplicationBar extends Component {
   }
 
   invertShowLoginModal = () => {
-    const { modalStatus } = this.props; 
+    const { modalStatus } = this.props;
     store.dispatch({
       type: 'SET_MODAL_STATUS',
-      payload: {...modalStatus, signin: !modalStatus.signin}
+      payload: { ...modalStatus, signin: !modalStatus.signin }
     });
   }
 
   invertShowSignupModal = () => {
-    const { modalStatus } = this.props; 
+    const { modalStatus } = this.props;
     store.dispatch({
       type: 'SET_MODAL_STATUS',
-      payload: {...modalStatus, signup: !modalStatus.signup}
+      payload: { ...modalStatus, signup: !modalStatus.signup }
     });
   }
 
   onClickLogin = () => {
     this.props.signinAction(this.state.loginUsername, this.state.loginPassword);
-    this.setState({ showLoginModal: false });
   }
 
   onClickSignup = () => {
     const { signupUsername, signupPassword, signupName, signupEmail, signupDob } = this.state;
     this.props.signupAction(
-      signupUsername, 
+      signupUsername,
       signupPassword,
       signupName,
       signupEmail,
       signupDob
-      );
-    this.setState({ showLoginModal: false });
+    );
   }
 
   categoriesOverlayMaker = () => {
@@ -164,10 +162,24 @@ class ApplicationBar extends Component {
     );
   }
 
+  signinErrorMaker = () => {
+    if (this.props.signinError === null)
+      return null;
+    return (
+      <React.Fragment>
+        <Form.Label className={"text-danger"}>
+          {this.props.signinError}
+        </Form.Label>
+        <br />
+      </React.Fragment>
+    );
+  }
+
   loginModalMaker = () => {
     const loginInputs = (
       <Form>
         <Form.Group controlId={"loginUsername"}>
+          {this.signinErrorMaker()}
           <Form.Label>Username</Form.Label>
           <Form.Control type={"text"}
             onChange={this.onLoginSignupInputChange}
@@ -209,10 +221,24 @@ class ApplicationBar extends Component {
     );
   }
 
+  signupErrorMaker = () => {
+    if (this.props.signupError === null)
+      return null;
+    return (
+      <React.Fragment>
+        <Form.Label className={"text-danger"}>
+          {this.props.signupError}
+        </Form.Label>
+        <br />
+      </React.Fragment>
+    );
+  }
+
   signupModalMaker = () => {
     const signupInputs = (
       <Form>
         <Form.Group controlId={"signupUsername"}>
+          {this.signupErrorMaker()}
           <Form.Label>Username</Form.Label>
           <Form.Control type={"text"}
             onChange={this.onLoginSignupInputChange}
@@ -300,7 +326,7 @@ class ApplicationBar extends Component {
   render() {
     return (
       <React.Fragment>
-        <LoadingBar style={{ backgroundColor: '#FF0000', zIndex: 1000 }} />
+        <LoadingBar style={{ backgroundColor: '#FF0000', zIndex: 55555 }} />
         <Navbar bg="light" expand="lg" >
           <Navbar.Brand>
             <Link to="/">
@@ -354,10 +380,10 @@ class ApplicationBar extends Component {
 }
 
 const mapActionToProps = (dispatch) => {
-  return bindActionCreators({ 
-    signinAction, 
-    signupAction, 
-    getProfileAction 
+  return bindActionCreators({
+    signinAction,
+    signupAction,
+    getProfileAction
   }, dispatch);
 };
 
@@ -365,7 +391,9 @@ const mapStateToProps = (state) => {
   return {
     jwt: state.jwt,
     profile: state.profile,
-    modalStatus: state.modalStatus
+    modalStatus: state.modalStatus,
+    signinError: state.signinError,
+    signupError: state.signupError
   }
 };
 
