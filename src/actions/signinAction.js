@@ -4,14 +4,14 @@ import { remote } from './commonData';
 export const SIGN_IN = 'SIGN_IN';
 
 
-export const signinAction = ({ email, password }) => {
+export const signinAction = (username, password) => {
 	const responseFromServer = ax.request({
-		url: '/signin',
+		url: '/user/signin',
 		baseURL: remote,
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		data: {
-			email,
+			username,
 			password
 		}
 	});

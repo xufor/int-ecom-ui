@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Modal, NavDropdown, Button, Form, Badge, Overlay, Popover } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import LoadingBar from 'react-redux-loading-bar'
 import { Link } from 'react-router-dom';
 import Select from 'react-select'
 
-import { categories, brands, ratings, prices } from './selectionData';
 import './style.css';
+import { categories, brands, ratings, prices } from './selectionData';
+import { signinAction } from '../../actions/signinAction';
+import { signupAction } from '../../actions/signupAction';
+import { getProfileAction } from '../../actions/getProfileAction';
+
 
 class ApplicationBar extends Component {
   constructor(props) {
@@ -27,6 +34,13 @@ class ApplicationBar extends Component {
       selectedPrice: null,
     };
     this.overlayContainerRef = React.createRef();
+  }
+
+  componentDidUpdate() {
+    // loads the profile once the login is confirmed
+    if (this.props.jwt != null && this.props.profile === null) {
+      this.props.getProfileAction();
+    }
   }
 
   onClickCategories = (event) => {
@@ -62,6 +76,23 @@ class ApplicationBar extends Component {
 
   invertShowSignupModal = () => {
     this.setState({ showSignupModal: !this.state.showSignupModal });
+  }
+
+  onClickLogin = () => {
+    this.props.signinAction(this.state.loginUsername, this.state.loginPassword);
+    this.setState({ showLoginModal: false });
+  }
+
+  onClickSignup = () => {
+    const { signupUsername, signupPassword, signupName, signupEmail, signupDob } = this.state;
+    this.props.signupAction(
+      signupUsername, 
+      signupPassword,
+      signupName,
+      signupEmail,
+      Date.parse(signupDob) / 1000
+      );
+    this.setState({ showLoginModal: false });
   }
 
   categoriesOverlayMaker = () => {
@@ -160,11 +191,10 @@ class ApplicationBar extends Component {
         </Modal.Header>
         <Modal.Body>{loginInputs}</Modal.Body>
         <Modal.Footer>
-          <Button variant="primary">Login</Button>
-          <Button
-            variant="secondary"
-            onClick={this.invertShowLoginModal}
-          >
+          <Button variant="primary" onClick={this.onClickLogin}>
+            Login
+          </Button>
+          <Button variant="secondary" onClick={this.invertShowLoginModal}>
             Cancel
           </Button>
         </Modal.Footer>
@@ -230,11 +260,10 @@ class ApplicationBar extends Component {
         </Modal.Header>
         <Modal.Body>{signupInputs}</Modal.Body>
         <Modal.Footer>
-          <Button variant="primary">Signup</Button>
-          <Button
-            variant="secondary"
-            onClick={this.invertShowSignupModal}
-          >
+          <Button variant="primary" onClick={this.onClickSignup}>
+            Signup
+          </Button>
+          <Button variant="secondary" onClick={this.invertShowSignupModal}>
             Cancel
           </Button>
         </Modal.Footer>
@@ -242,9 +271,29 @@ class ApplicationBar extends Component {
     );
   }
 
+  renderDropdownItemsBasedOnLogin = () => {
+    if (this.props && this.props.jwt == null) {
+      return (
+        <React.Fragment>
+          <NavDropdown.Item onClick={this.invertShowLoginModal} >Login</NavDropdown.Item>
+          <NavDropdown.Item onClick={this.invertShowSignupModal} >Signup</NavDropdown.Item>
+        </React.Fragment>
+      );
+    }
+    else {
+      return (
+        <React.Fragment>
+          <NavDropdown.Item>Profile</NavDropdown.Item>
+          <NavDropdown.Item>Logout</NavDropdown.Item>
+        </React.Fragment>
+      )
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
+        <LoadingBar style={{ backgroundColor: '#FF0000', zIndex: 1000 }} />
         <Navbar bg="light" expand="lg" >
           <Navbar.Brand>
             <Link to="/">
@@ -281,11 +330,11 @@ class ApplicationBar extends Component {
               </Link>
             </Nav.Link>
             <Nav>
-              <NavDropdown title="Account" id="basic-nav-dropdown">
-                <NavDropdown.Item onClick={this.invertShowLoginModal} >Login</NavDropdown.Item>
-                <NavDropdown.Item onClick={this.invertShowSignupModal} >Signup</NavDropdown.Item>
-                <NavDropdown.Item>Profile</NavDropdown.Item>
-                <NavDropdown.Item>Logout</NavDropdown.Item>
+              <NavDropdown
+                title={this.props.profile ? this.props.profile.name : "Account"}
+                id="basic-nav-dropdown"
+              >
+                {this.renderDropdownItemsBasedOnLogin()}
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
@@ -297,4 +346,15 @@ class ApplicationBar extends Component {
   }
 }
 
-export default ApplicationBar;
+const mapActionToProps = (dispatch) => {
+  return bindActionCreators({ signinAction, signupAction, getProfileAction }, dispatch);
+};
+
+const mapStateToProps = (state) => {
+  return {
+    jwt: state.jwt,
+    profile: state.profile,
+  }
+};
+
+export default connect(mapStateToProps, mapActionToProps)(ApplicationBar);
