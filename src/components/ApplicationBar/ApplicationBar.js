@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Select from 'react-select'
 
 import './style.css';
+import { store } from '../../index';
 import { categories, brands, ratings, prices } from './selectionData';
 import { signinAction } from '../../actions/signinAction';
 import { signupAction } from '../../actions/signupAction';
@@ -28,8 +29,6 @@ class ApplicationBar extends Component {
       signupEmail: "",
       signupName: "",
       signupDob: "",
-      showLoginModal: false,
-      showSignupModal: false,
       selectedRating: null,
       selectedPrice: null,
     };
@@ -71,11 +70,19 @@ class ApplicationBar extends Component {
   }
 
   invertShowLoginModal = () => {
-    this.setState({ showLoginModal: !this.state.showLoginModal });
+    const { modalStatus } = this.props; 
+    store.dispatch({
+      type: 'SET_MODAL_STATUS',
+      payload: {...modalStatus, signin: !modalStatus.signin}
+    });
   }
 
   invertShowSignupModal = () => {
-    this.setState({ showSignupModal: !this.state.showSignupModal });
+    const { modalStatus } = this.props; 
+    store.dispatch({
+      type: 'SET_MODAL_STATUS',
+      payload: {...modalStatus, signup: !modalStatus.signup}
+    });
   }
 
   onClickLogin = () => {
@@ -182,7 +189,7 @@ class ApplicationBar extends Component {
 
     return (
       <Modal
-        show={this.state.showLoginModal}
+        show={this.props.modalStatus.signin}
         backdrop={"static"}
         keyboard={false}
       >
@@ -251,7 +258,7 @@ class ApplicationBar extends Component {
 
     return (
       <Modal
-        show={this.state.showSignupModal}
+        show={this.props.modalStatus.signup}
         backdrop={"static"}
         keyboard={false}
       >
@@ -347,13 +354,18 @@ class ApplicationBar extends Component {
 }
 
 const mapActionToProps = (dispatch) => {
-  return bindActionCreators({ signinAction, signupAction, getProfileAction }, dispatch);
+  return bindActionCreators({ 
+    signinAction, 
+    signupAction, 
+    getProfileAction 
+  }, dispatch);
 };
 
 const mapStateToProps = (state) => {
   return {
     jwt: state.jwt,
     profile: state.profile,
+    modalStatus: state.modalStatus
   }
 };
 
