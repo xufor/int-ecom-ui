@@ -97,7 +97,7 @@ class ApplicationBar extends Component {
       signupPassword,
       signupName,
       signupEmail,
-      Date.parse(signupDob) / 1000
+      signupDob
       );
     this.setState({ showLoginModal: false });
   }
