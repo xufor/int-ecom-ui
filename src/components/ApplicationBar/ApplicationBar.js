@@ -62,7 +62,12 @@ class ApplicationBar extends Component {
     return (
       <React.Fragment>
         <LoadingBar style={{ backgroundColor: '#FF0000', zIndex: 55555 }} />
-        <Navbar bg="light" expand="lg" ref={this.overlayContainerRef}>
+        <Navbar
+          bg={"light"}
+          expand={"lg"}
+          ref={this.overlayContainerRef}
+          className={"border-bottom"}
+        >
           <Navbar.Brand>
             <Link to="/">
               <img
