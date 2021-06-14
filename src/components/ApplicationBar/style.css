@@ -1,15 +1,3 @@
 #categories-text {
     cursor: pointer;
 }
-
-.categories-selects {
-    width: 400px;
-}
-
-.popover {
-    min-width: max-content;
-}
-
-.basic-multi-select {
-    font-family: inherit;
-}

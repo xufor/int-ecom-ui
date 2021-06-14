@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Modal, NavDropdown, Button, Form, Badge, Overlay, Popover } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Badge } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import LoadingBar from 'react-redux-loading-bar'
 import { Link } from 'react-router-dom';
-import Select from 'react-select'
 
 import './style.css';
-import { store } from '../../index';
-import { categories, brands, ratings, prices } from './selectionData';
-import { signinAction } from '../../actions/signinAction';
-import { signupAction } from '../../actions/signupAction';
 import { getProfileAction } from '../../actions/getProfileAction';
+import SigninBox, { invertShowSigninModal } from '../SigninBox/SigninBox';
+import SignupBox, { invertShowSignupModal } from '../SignupBox/SignupBox';
+import CategoriesBox from '../CatergoriesBox/CategoriesBox';
 
 
 class ApplicationBar extends Component {
@@ -19,20 +17,8 @@ class ApplicationBar extends Component {
     super(props);
     this.state = {
       showCategoryOverlay: false,
-      targetForOverlay: null,
-      selectedCategory: categories[0],
-      selectedBrands: null,
-      loginUsername: "",
-      loginPassword: "",
-      signupUsername: "",
-      signupPassword: "",
-      signupEmail: "",
-      signupName: "",
-      signupDob: "",
-      selectedRating: null,
-      selectedPrice: null,
+      targetForOverlay: null
     };
-    this.overlayContainerRef = React.createRef();
   }
 
   componentDidUpdate() {
@@ -49,267 +35,16 @@ class ApplicationBar extends Component {
     });
   }
 
-  onCategoryChange = (event) => {
-    this.setState({ selectedCategory: event, selectedBrands: null });
-  }
-
-  onBrandChange = (event) => {
-    this.setState({ selectedBrands: event });
-  }
-
-  onRatingChange = (event) => {
-    this.setState({ selectedRating: event });
-  }
-
-  onPriceChange = (event) => {
-    this.setState({ selectedPrice: event });
-  }
-
-  onLoginSignupInputChange = (event) => {
-    this.setState({ [event.target.id]: event.target.value });
-  }
-
-  invertShowLoginModal = () => {
-    const { modalStatus } = this.props;
-    store.dispatch({
-      type: 'SET_MODAL_STATUS',
-      payload: { ...modalStatus, signin: !modalStatus.signin }
-    });
-  }
-
-  invertShowSignupModal = () => {
-    const { modalStatus } = this.props;
-    store.dispatch({
-      type: 'SET_MODAL_STATUS',
-      payload: { ...modalStatus, signup: !modalStatus.signup }
-    });
-  }
-
-  onClickLogin = () => {
-    this.props.signinAction(this.state.loginUsername, this.state.loginPassword);
-  }
-
-  onClickSignup = () => {
-    const { signupUsername, signupPassword, signupName, signupEmail, signupDob } = this.state;
-    this.props.signupAction(
-      signupUsername,
-      signupPassword,
-      signupName,
-      signupEmail,
-      signupDob
-    );
-  }
-
-  categoriesOverlayMaker = () => {
-    const selects = (
-      <React.Fragment>
-        <Select
-          value={this.state.selectedCategory}
-          options={categories}
-          onChange={this.onCategoryChange}
-          className={"basic-multi-select categories-selects mb-1"}
-          classNamePrefix={"select"}
-          isSearchable
-        />
-        <Select
-          isMulti
-          placeholder={"Select Brand"}
-          value={this.state.selectedBrands}
-          onChange={this.onBrandChange}
-          options={brands[this.state.selectedCategory.value]}
-          className={"basic-multi-select categories-selects mb-1"}
-          classNamePrefix="select"
-          isSearchable
-        />
-        <Select
-          placeholder={"Select Minimum Rating"}
-          options={ratings}
-          onChange={this.onRatingChange}
-          value={this.state.selectedRating}
-          className={"basic-multi-select categories-selects mb-1"}
-          classNamePrefix={"select"}
-          isSearchable
-        />
-        <Select
-          placeholder={"Select Maximum Price"}
-          options={prices}
-          onChange={this.onPriceChange}
-          value={this.state.selectedPrice}
-          className={"basic-multi-select categories-selects mb-1"}
-          classNamePrefix={"select"}
-          isSearchable
-        />
-        <Button variant="success">
-          Apply
-        </Button>
-      </React.Fragment>
-    );
-
-    return (
-      <Overlay
-        show={this.state.showCategoryOverlay}
-        placement={"bottom"}
-        target={this.state.targetForOverlay}
-        container={this.overlayContainerRef.current}
-        containerPadding={10}
-      >
-        <Popover id={"popover-contained"}>
-          <Popover.Content>
-            {selects}
-          </Popover.Content>
-        </Popover>
-      </Overlay>
-    );
-  }
-
-  signinErrorMaker = () => {
-    if (this.props.signinError === null)
-      return null;
-    return (
-      <React.Fragment>
-        <Form.Label className={"text-danger"}>
-          {this.props.signinError}
-        </Form.Label>
-        <br />
-      </React.Fragment>
-    );
-  }
-
-  loginModalMaker = () => {
-    const loginInputs = (
-      <Form>
-        <Form.Group controlId={"loginUsername"}>
-          {this.signinErrorMaker()}
-          <Form.Label>Username</Form.Label>
-          <Form.Control type={"text"}
-            onChange={this.onLoginSignupInputChange}
-            value={this.state.loginUsername}
-            placeholder={"Enter Username"}
-          />
-        </Form.Group>
-        <Form.Group controlId={"loginPassword"}>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type={"password"}
-            value={this.state.loginPassword}
-            onChange={this.onLoginSignupInputChange}
-            placeholder={"Enter Password"}
-          />
-        </Form.Group>
-      </Form>
-    );
-
-    return (
-      <Modal
-        show={this.props.modalStatus.signin}
-        backdrop={"static"}
-        keyboard={false}
-      >
-        <Modal.Header>
-          <Modal.Title>Login</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{loginInputs}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={this.onClickLogin}>
-            Login
-          </Button>
-          <Button variant="secondary" onClick={this.invertShowLoginModal}>
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-
-  signupErrorMaker = () => {
-    if (this.props.signupError === null)
-      return null;
-    return (
-      <React.Fragment>
-        <Form.Label className={"text-danger"}>
-          {this.props.signupError}
-        </Form.Label>
-        <br />
-      </React.Fragment>
-    );
-  }
-
-  signupModalMaker = () => {
-    const signupInputs = (
-      <Form>
-        <Form.Group controlId={"signupUsername"}>
-          {this.signupErrorMaker()}
-          <Form.Label>Username</Form.Label>
-          <Form.Control type={"text"}
-            onChange={this.onLoginSignupInputChange}
-            value={this.state.signupUsername}
-            placeholder={"Enter Username"}
-          />
-        </Form.Group>
-        <Form.Group controlId={"signupPassword"}>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type={"password"}
-            value={this.state.signupPassword}
-            onChange={this.onLoginSignupInputChange}
-            placeholder={"Enter Password"}
-          />
-        </Form.Group>
-        <Form.Group controlId={"signupEmail"}>
-          <Form.Label>Email</Form.Label>
-          <Form.Control type={"email"}
-            onChange={this.onLoginSignupInputChange}
-            value={this.state.signupEmail}
-            placeholder={"Enter Email"}
-          />
-        </Form.Group>
-        <Form.Group controlId={"signupName"}>
-          <Form.Label>Name</Form.Label>
-          <Form.Control type={"text"}
-            onChange={this.onLoginSignupInputChange}
-            value={this.state.signupName}
-            placeholder={"Enter Name"}
-          />
-        </Form.Group>
-        <Form.Group controlId={"signupDob"}>
-          <Form.Label>Date of Birth</Form.Label>
-          <Form.Control type={"date"}
-            onChange={this.onLoginSignupInputChange}
-            value={this.state.signupDob}
-            placeholder={"Enter Name"}
-          />
-        </Form.Group>
-      </Form>
-    );
-
-    return (
-      <Modal
-        show={this.props.modalStatus.signup}
-        backdrop={"static"}
-        keyboard={false}
-      >
-        <Modal.Header>
-          <Modal.Title>Signup</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{signupInputs}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={this.onClickSignup}>
-            Signup
-          </Button>
-          <Button variant="secondary" onClick={this.invertShowSignupModal}>
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-
   renderDropdownItemsBasedOnLogin = () => {
     if (this.props && this.props.jwt == null) {
       return (
         <React.Fragment>
-          <NavDropdown.Item onClick={this.invertShowLoginModal} >Login</NavDropdown.Item>
-          <NavDropdown.Item onClick={this.invertShowSignupModal} >Signup</NavDropdown.Item>
+          <NavDropdown.Item onClick={invertShowSigninModal} >
+            Signin
+          </NavDropdown.Item>
+          <NavDropdown.Item onClick={invertShowSignupModal} >
+            Signup
+          </NavDropdown.Item>
         </React.Fragment>
       );
     }
@@ -327,7 +62,7 @@ class ApplicationBar extends Component {
     return (
       <React.Fragment>
         <LoadingBar style={{ backgroundColor: '#FF0000', zIndex: 55555 }} />
-        <Navbar bg="light" expand="lg" >
+        <Navbar bg="light" expand="lg" ref={this.overlayContainerRef}>
           <Navbar.Brand>
             <Link to="/">
               <img
@@ -341,12 +76,15 @@ class ApplicationBar extends Component {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto" ref={this.overlayContainerRef}>
+            <Nav className="mr-auto">
               <Nav.Link as={"div"} ><Link to="/" className={"text-link"}>Home</Link></Nav.Link>
               <Nav.Link as={"div"} id={'categories-text'} onClick={this.onClickCategories} >
                 Categories
               </Nav.Link>
-              {this.categoriesOverlayMaker()}
+              <CategoriesBox
+                target={this.state.targetForOverlay}
+                show={this.state.showCategoryOverlay}
+              />
             </Nav>
             <Nav.Link as={"div"}>
               <Link to={"cart"} className={"text-link"}>
@@ -372,8 +110,8 @@ class ApplicationBar extends Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        {this.loginModalMaker()}
-        {this.signupModalMaker()}
+        <SigninBox />
+        <SignupBox />
       </React.Fragment>
     );
   }
@@ -381,8 +119,6 @@ class ApplicationBar extends Component {
 
 const mapActionToProps = (dispatch) => {
   return bindActionCreators({
-    signinAction,
-    signupAction,
     getProfileAction
   }, dispatch);
 };
@@ -391,9 +127,6 @@ const mapStateToProps = (state) => {
   return {
     jwt: state.jwt,
     profile: state.profile,
-    modalStatus: state.modalStatus,
-    signinError: state.signinError,
-    signupError: state.signupError
   }
 };
 
