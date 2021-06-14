@@ -2,7 +2,7 @@ import { GET_PRODUCTS } from '../actions/getProductsAction';
 import { vars } from './commonData';
 
 
-const profileReducer = (state = [], action) => {
+const productsReducer = (state = [], action) => {
 	switch (action.type) {
 		case GET_PRODUCTS + vars.f:
 			return action.payload.data;
@@ -11,4 +11,4 @@ const profileReducer = (state = [], action) => {
 	}
 }
 
-export default profileReducer;
+export default productsReducer;

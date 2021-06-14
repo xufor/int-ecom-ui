@@ -13,7 +13,8 @@ const rootReducer = combineReducers({
     modalStatus: modalReducer,
     loadingBar: loadingBarReducer,
     signinError: signinErrorReducer,
-    signupError: signupErrorReducer
+    signupError: signupErrorReducer,
+    products: profileReducer
 });
 
 export default rootReducer;

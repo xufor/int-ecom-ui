@@ -8,12 +8,12 @@ class ProductCard extends Component {
         <Card.Img variant={"top"} src={"assets/images/sample.png"} />
         <Card.Body>
           <Card.Title>
-            Card Title
-          <Badge className={"bg-warning p-2 ml-2"} >5</Badge>
+            5Star
+            <Badge className={"bg-warning p-2 ml-2"} >5</Badge>
           </Card.Title>
+          <Card.Text>Cadburry - ₹50</Card.Text>
           <Card.Text>
-            Some quick example text to build on the card title and make up the bulk of
-            the card's content.
+            Jo Khaye Kho Jaye
           </Card.Text>
           <Button variant={"primary"}>Add to Cart</Button>
         </Card.Body>
