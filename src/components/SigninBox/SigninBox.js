@@ -20,7 +20,6 @@ class SigninBox extends Component {
     this.state = {
       signinUsername: "",
       signinPassword: "",
-      signupUsername: ""
     };
   }
 
