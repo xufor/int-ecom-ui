@@ -359,7 +359,7 @@ class ApplicationBar extends Component {
                     alt="app-logo"
                   />
                 </Badge>
-                <Badge>9</Badge>
+                <Badge className="text-black-50" >9</Badge>
               </Link>
             </Nav.Link>
             <Nav>
