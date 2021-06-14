@@ -12,10 +12,8 @@ class ProductCard extends Component {
             <Badge className={"bg-warning p-2 ml-2"} >5</Badge>
           </Card.Title>
           <Card.Text>Cadburry - ₹50</Card.Text>
-          <Card.Text>
-            Jo Khaye Kho Jaye
-          </Card.Text>
-          <Button variant={"primary"}>Add to Cart</Button>
+          <Card.Text>Jo Khaye Kho Jaye</Card.Text>
+          <Button variant={"success"}>Add to Cart</Button>
         </Card.Body>
       </Card>
     );
