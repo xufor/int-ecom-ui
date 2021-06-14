@@ -6,7 +6,7 @@ const signinErrorReducer = (state = null, action) => {
 	switch (action.type) {
 		case SIGN_IN + vars.r:
 			if (action.payload.response)
-				if(typeof action.payload.response !== "string")
+				if(typeof action.payload.response.data !== "string")
 					return "Internal server error.";
 				else
 					return action.payload.response.data;

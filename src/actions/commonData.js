@@ -1,1 +1,1 @@
-export const remote = "http://localhost:8888";
+export const remote = "http://localhost:8080";
