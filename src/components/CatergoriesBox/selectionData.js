@@ -7,7 +7,7 @@ export const categories = [
 const chocolateBrands = [
     { value: 'cadbury', label: 'Cadbury' },
     { value: 'nestle', label: 'Nestle' },
-    { value: 'britannia', label: 'Britannia'},
+    { value: 'amul', label: 'Amul'},
     { value: 'parle', label: 'Parle'},
     { value: 'galaxy', label: 'Galaxy'},
 ]

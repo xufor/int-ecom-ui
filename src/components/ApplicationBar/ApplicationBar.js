@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import LoadingBar from 'react-redux-loading-bar'
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
 import './style.css';
 import { getProfileAction } from '../../actions/getProfileAction';
 import SigninBox, { invertShowSigninModal } from '../SigninBox/SigninBox';
 import SignupBox, { invertShowSignupModal } from '../SignupBox/SignupBox';
+import ProfileBox, { invertShowProfileModal } from '../ProfileBox/ProfileBox';
 import CategoriesBox from '../CatergoriesBox/CategoriesBox';
 
 
@@ -23,7 +25,7 @@ class ApplicationBar extends Component {
 
   componentDidUpdate() {
     // loads the profile once the login is confirmed
-    if (this.props.jwt != null && this.props.profile === null) {
+    if (this.props.jwt != null && _.isEmpty(this.props.profile)) {
       this.props.getProfileAction();
     }
   }
@@ -51,7 +53,9 @@ class ApplicationBar extends Component {
     else {
       return (
         <React.Fragment>
-          <NavDropdown.Item>Profile</NavDropdown.Item>
+          <NavDropdown.Item onClick={invertShowProfileModal}>
+            Profile
+          </NavDropdown.Item>
           <NavDropdown.Item>Logout</NavDropdown.Item>
         </React.Fragment>
       )
@@ -107,7 +111,7 @@ class ApplicationBar extends Component {
             </Nav.Link>
             <Nav>
               <NavDropdown
-                title={this.props.profile ? this.props.profile.name : "Account"}
+                title={_.isEmpty(this.props.profile) ? "Account": this.props.profile.name}
                 id="basic-nav-dropdown"
               >
                 {this.renderDropdownItemsBasedOnLogin()}
@@ -117,6 +121,7 @@ class ApplicationBar extends Component {
         </Navbar>
         <SigninBox />
         <SignupBox />
+        <ProfileBox />
       </React.Fragment>
     );
   }

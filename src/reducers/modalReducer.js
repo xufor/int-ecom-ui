@@ -2,7 +2,7 @@ import { vars } from './commonData';
 import { SIGN_IN } from '../actions/signinAction';
 import { SIGN_UP } from '../actions/signupAction';
 
-const defaultState = { signin: false, signup: false };
+const defaultState = { signin: false, signup: false, profile: false};
 
 const modalReducer = (state = defaultState, action) => {
     switch (action.type) {

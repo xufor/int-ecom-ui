@@ -2,7 +2,7 @@ import { GET_PROFILE } from '../actions/getProfileAction';
 import { vars } from './commonData';
 
 
-const profileReducer = (state = null, action) => {
+const profileReducer = (state = {}, action) => {
 	switch (action.type) {
 		case GET_PROFILE + vars.f:
 			return action.payload.data;
