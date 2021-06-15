@@ -62,7 +62,7 @@ class ProductCard extends Component {
           container={this.overlayTarget}
           containerPadding={10}
         >
-          <Popover id={"popover-contained"}>
+          <Popover>
             <Popover.Title as={"h3"}>Description</Popover.Title>
             <Popover.Content>
               {description}

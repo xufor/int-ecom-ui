@@ -2,7 +2,7 @@
     width: 400px;
 }
 
-.popover {
+#cat-popover {
     min-width: max-content;
 }
 

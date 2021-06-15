@@ -84,7 +84,7 @@ class CatergoriesBox extends Component {
           container={this.overlayContainerRef.current}
           containerPadding={10}
         >
-          <Popover id={"popover-contained"}>
+          <Popover id={"cat-popover"}>
             <Popover.Content>
               {selects}
             </Popover.Content>
