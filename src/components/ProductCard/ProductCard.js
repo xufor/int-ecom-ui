@@ -1,20 +1,74 @@
 import React, { Component } from 'react';
-import { Card, Button, Badge } from 'react-bootstrap';
+import { Card, Button, Badge, Popover, Overlay } from 'react-bootstrap';
+import { capitalize } from 'lodash';
+import Skeleton from 'react-loading-skeleton';
 
 class ProductCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showDescriptionPopover: false,
+    };
+    this.overlayTarget = React.createRef();
+  }
+
   render() {
+    const {
+      name,
+      description,
+      price,
+      company,
+      review,
+      image
+    } = this.props.productDetails;
     return (
-      <Card style={{ width: '16rem' }} className={"m-2"}>
-        <Card.Img variant={"top"} src={"assets/images/sample.png"} />
+      <Card
+        style={{ width: '16rem' }}
+        className={"m-2"}
+        bg={"light"}
+        onMouseEnter={() => this.setState({ showDescriptionPopover: true })}
+        onMouseLeave={() => this.setState({ showDescriptionPopover: false })}
+        ref={this.overlayTarget}
+      >
+        {
+          image
+            ? <Card.Img variant={"top"} src={image} />
+            : <Skeleton height={200} />
+        }
         <Card.Body>
           <Card.Title>
-            5Star
-            <Badge className={"bg-warning p-2 ml-2"} >5</Badge>
+            {
+              name
+                ? name
+                : <Skeleton />
+            }
+            <Badge className={"bg-warning p-1 ml-2"} >{review}</Badge>
           </Card.Title>
-          <Card.Text>Cadburry - ₹50</Card.Text>
-          <Card.Text>Jo Khaye Kho Jaye</Card.Text>
-          <Button variant={"success"}>Add to Cart</Button>
+          <Card.Text>
+            {
+              company
+                ? capitalize(company) + " - ₹" + price
+                : <Skeleton />
+            }
+          </Card.Text>
+          <Button disabled={name === undefined} variant={"success"}>
+            Add to Cart
+          </Button>
         </Card.Body>
+        <Overlay
+          show={this.state.showDescriptionPopover && name !== undefined}
+          placement={"right"}
+          target={this.overlayTarget}
+          container={this.overlayTarget}
+          containerPadding={10}
+        >
+          <Popover id={"popover-contained"}>
+            <Popover.Title as={"h3"}>Description</Popover.Title>
+            <Popover.Content>
+              {description}
+            </Popover.Content>
+          </Popover>
+        </Overlay>
       </Card>
     );
   }

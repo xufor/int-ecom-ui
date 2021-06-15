@@ -3,6 +3,7 @@ import { loadingBarReducer } from 'react-redux-loading-bar';
 
 import jwtReducer from './jwtReducer';
 import profileReducer from './profileReducer';
+import productsReducer from './productsReducer';
 import modalReducer from './modalReducer';
 import signinErrorReducer from './signinErrorReducer';
 import signupErrorReducer from './signupErrorReducer';
@@ -14,7 +15,7 @@ const rootReducer = combineReducers({
     loadingBar: loadingBarReducer,
     signinError: signinErrorReducer,
     signupError: signupErrorReducer,
-    products: profileReducer
+    products: productsReducer
 });
 
 export default rootReducer;

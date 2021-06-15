@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import { Row, Container, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { isEmpty } from 'lodash';
+
 import ProductCard from '../ProductCard/ProductCard';
+import { getProductsAction } from '../../actions/getProductsAction';
 
 class HomePage extends Component {
+  componentDidMount() {
+    if (isEmpty(this.props.products))
+      this.props.getProductsAction("/-/-/-/-");
+  }
+
   makeCards = () => {
-    return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((element) => {
-      return <Col key={element}><ProductCard /></Col>;
+    return this.props.products.map((product) => {
+      return <Col key={product.id}><ProductCard productDetails={product} /></Col>;
     });
   }
 
@@ -13,7 +23,7 @@ class HomePage extends Component {
     return (
       <Container
         fluid={"md"}
-        className={"pt-2 min-vh-100 bg-light border-left border-right"}
+        className={"pt-2 min-vh-100 border-left border-right"}
       >
         <Row xl={4} lg={3} sm={2} noGutters className={"m-0"}>
           {this.makeCards()}
@@ -23,4 +33,16 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+const mapActionToProps = (dispatch) => {
+  return bindActionCreators({
+    getProductsAction
+  }, dispatch);
+};
+
+const mapStateToProps = (state) => {
+  return {
+    products: state.products
+  }
+};
+
+export default connect(mapStateToProps, mapActionToProps)(HomePage);

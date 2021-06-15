@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import LoadingBar from 'react-redux-loading-bar'
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 
 import './style.css';
 import { getProfileAction } from '../../actions/getProfileAction';
@@ -25,7 +25,7 @@ class ApplicationBar extends Component {
 
   componentDidUpdate() {
     // loads the profile once the login is confirmed
-    if (this.props.jwt != null && _.isEmpty(this.props.profile)) {
+    if (this.props.jwt != null && isEmpty(this.props.profile)) {
       this.props.getProfileAction();
     }
   }
@@ -111,7 +111,7 @@ class ApplicationBar extends Component {
             </Nav.Link>
             <Nav>
               <NavDropdown
-                title={_.isEmpty(this.props.profile) ? "Account": this.props.profile.name}
+                title={isEmpty(this.props.profile) ? "Account": this.props.profile.name}
                 id="basic-nav-dropdown"
               >
                 {this.renderDropdownItemsBasedOnLogin()}

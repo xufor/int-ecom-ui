@@ -1,13 +1,13 @@
 import ax from 'axios';
-import { remote } from './commonData';
+import { product_remote } from './commonData';
 
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 
 
-export const getProductsAction = () => {
+export const getProductsAction = (custompath) => {
 	const responseFromServer = ax.request({
-		url: '/user/product',
-		baseURL: remote,
+		url: '/product/get' + custompath,
+		baseURL: product_remote,
 		method: 'get'
 	});
 
