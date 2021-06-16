@@ -1,6 +1,6 @@
 .pcard-rating {
     width: max-content;
-    background: rgb(248, 248, 95);
+    background: rgb(255, 255, 50);
     border-radius: 20%;
-    padding: 10px;
+    padding: 5px;
 }

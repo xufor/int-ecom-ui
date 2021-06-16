@@ -18,7 +18,7 @@ class ProductCard extends Component {
   onClickAddToCart = () => {
     store.dispatch({
       type: ADD_TO_CART,
-      payload: this.props.productDetails 
+      payload: this.props.productDetails
     });
   }
 
@@ -52,14 +52,17 @@ class ProductCard extends Component {
                 ? name
                 : <Skeleton />
             }
-            <Badge className={"pcard-rating p-1 ml-1"} >{review}</Badge>
           </Card.Title>
-          <Card.Text>
+          <Card.Subtitle>
             {
               company
-                ? capitalize(company) + " - ₹" + price
+                ? capitalize(company) + " - "
                 : <Skeleton />
             }
+            <Badge className={"pcard-rating"} >{review}</Badge>
+          </Card.Subtitle>
+          <Card.Text>
+            ₹{price}
           </Card.Text>
           <Button
             disabled={name === undefined}
