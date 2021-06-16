@@ -25,7 +25,7 @@ class AppBar extends Component {
 
   componentDidUpdate() {
     // loads the profile once the login is confirmed
-    if (this.props.jwt != null && isEmpty(this.props.profile)) {
+    if (this.props.isLoggedIn && isEmpty(this.props.profile)) {
       this.props.getProfileAction();
     }
   }

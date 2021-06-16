@@ -62,7 +62,7 @@ class ProductCard extends Component {
             <Badge className={"pcard-rating"} >{review}</Badge>
           </Card.Subtitle>
           <Card.Text>
-            ₹{price}
+            {price? '₹' + price : ""}
           </Card.Text>
           <Button
             disabled={name === undefined}

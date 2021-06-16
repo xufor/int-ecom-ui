@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Row, Container, Table, Image, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { isEmpty, isNull, keys, sum, values } from 'lodash';
+import { isEmpty, isEqual, isNull, keys, sum, values } from 'lodash';
 import { store } from '../../index';
 import { DECREASE_QUANTITY, INCREASE_QUANTITY } from '../../reducers/cartReducer';
+import { placeOrderAction } from '../../actions/placeOrderAction';
+import { withRouter } from 'react-router';
 
 class CartPage extends Component {
   increaseQuantity = (event) => {
@@ -22,8 +24,20 @@ class CartPage extends Component {
   }
 
   onClickPlaceOrder = () => {
-    if(!this.props.isLoggedIn) {
+    if(!this.props.isLoggedIn)
       alert("You must log in first.")
+    else {
+      const { cartItems } = this.props;
+      this.props.placeOrderAction(keys(cartItems).map((key) => {
+        return {
+          productid: cartItems[key].id,
+          quantity: cartItems[key].quantity
+        }
+      }));
+      setTimeout(() => {
+        if(isEqual(this.props.orderStatus, "success")) 
+          this.props.history.push("/");
+      }, 1000);
     }
   }
 
@@ -107,14 +121,16 @@ class CartPage extends Component {
 
 const mapActionToProps = (dispatch) => {
   return bindActionCreators({
+    placeOrderAction
   }, dispatch);
 };
 
 const mapStateToProps = (state) => {
   return {
     cartItems: state.cartItems,
-    isLoggedIn: !isNull(state.jwt)
+    isLoggedIn: !isNull(state.jwt),
+    orderStatus: state.orderStatus
   }
 };
 
-export default connect(mapStateToProps, mapActionToProps)(CartPage);
+export default withRouter(connect(mapStateToProps, mapActionToProps)(CartPage));

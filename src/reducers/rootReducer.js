@@ -8,11 +8,13 @@ import modalReducer from './modalReducer';
 import signinErrorReducer from './signinErrorReducer';
 import signupErrorReducer from './signupErrorReducer';
 import cartReducer from './cartReducer';
+import orderReducer from './orderStatusReducer';
 
 const rootReducer = combineReducers({
     jwt: jwtReducer,
     profile: profileReducer,
     modalStatus: modalReducer,
+    orderStatus: orderReducer,
     loadingBar: loadingBarReducer,
     cartItems: cartReducer,
     signinError: signinErrorReducer,
