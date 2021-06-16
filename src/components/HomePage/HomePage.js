@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Container, Col } from 'react-bootstrap';
+import { Row, Container, Col, Image } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isEmpty } from 'lodash';
@@ -13,10 +13,27 @@ class HomePage extends Component {
       this.props.getProductsAction("/-/-/-/-");
   }
 
-  makeCards = () => {
-    return this.props.products.map((product) => {
-      return <Col key={product.id}><ProductCard productDetails={product} /></Col>;
-    });
+  showCardsOnBasisOfProductsAvailability = () => {
+    if (isEmpty(this.props.products)) {
+      return (
+        <Row className={"justify-content-center "}>
+          <Image src={"assets/images/no-data-found.png"} fluid />
+        </Row>
+      );
+    }
+    else {
+      return (
+        <Row xl={4} lg={3} sm={2} noGutters className={"m-0"}>
+          {
+            this.props.products.map((product) => (
+              <Col key={product.id}>
+                <ProductCard productDetails={product} />
+              </Col>
+            ))
+          }
+        </Row>
+      );
+    }
   }
 
   render() {
@@ -25,9 +42,7 @@ class HomePage extends Component {
         fluid={"md"}
         className={"pt-2 min-vh-100 border-left border-right"}
       >
-        <Row xl={4} lg={3} sm={2} noGutters className={"m-0"}>
-          {this.makeCards()}
-        </Row>
+        {this.showCardsOnBasisOfProductsAvailability()}
       </Container>
     );
   }

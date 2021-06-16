@@ -5,7 +5,9 @@ import { bindActionCreators } from 'redux';
 import Select from 'react-select'
 
 import './style.css';
-import { categories, brands, ratings, prices } from './selectionData';
+import { categories, brands, ratings, prices } from './SelectionData';
+import { getProductsAction } from '../../actions/getProductsAction';
+import { isEmpty, isEqual, isNull } from 'lodash';
 
 
 class CatergoriesBox extends Component {
@@ -20,8 +22,38 @@ class CatergoriesBox extends Component {
     this.overlayContainerRef = React.createRef();
   }
 
-  onCategoriesInputChange = (event, info) => {
-    this.setState({ [info.name]: event });
+  onCategoriesInputChange = (event, info) => {      
+    if(isEqual(info.name, "selectedCategory"))
+      this.setState({ [info.name]: event, selectedBrands: [] });
+    else
+      this.setState({ [info.name]: event });
+  }
+
+  onClickCategoriesApply = () => {
+    const { selectedCategory, selectedBrands, selectedPrice, selectedRating } = this.state;
+    let custompath = '/';
+    custompath += selectedCategory.value;
+    custompath += '/';
+    if(isNull(selectedPrice))
+      custompath += '-';
+    else
+      custompath += selectedPrice.value;
+    custompath += '/';
+    if(isEmpty(selectedBrands))
+      custompath += '-';
+    else
+      for(let i = 0; i < selectedBrands.length; i++) {
+        custompath += selectedBrands[i].value;
+        if(i !== selectedBrands.length - 1)
+          custompath += ',';
+      }
+    custompath += '/';
+    if(isNull(selectedRating))
+      custompath += '-';
+    else
+      custompath += selectedRating.value;
+
+    this.props.getProductsAction(custompath);
   }
 
   categoriesOverlayMaker = () => {
@@ -69,7 +101,7 @@ class CatergoriesBox extends Component {
           isClearable
           isSearchable
         />
-        <Button variant="success">
+        <Button variant={"success"} onClick={this.onClickCategoriesApply}>
           Apply
         </Button>
       </React.Fragment>
@@ -101,6 +133,7 @@ class CatergoriesBox extends Component {
 
 const mapActionToProps = (dispatch) => {
   return bindActionCreators({
+    getProductsAction
   }, dispatch);
 };
 
