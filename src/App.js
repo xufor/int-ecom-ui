@@ -3,13 +3,13 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import './App.css';
 import HomePage from './components/HomePage/HomePage';
-import ApplicationBar from './components/ApplicationBar/ApplicationBar';
+import AppBar from './components/AppBar/AppBar';
 
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
-          <ApplicationBar />
+          <AppBar />
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Redirect to={"/"}/>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button, Badge, Popover, Overlay } from 'react-bootstrap';
 import { capitalize } from 'lodash';
+import { store } from '../../index';
 import Skeleton from 'react-loading-skeleton';
 
 class ProductCard extends Component {
@@ -10,6 +11,13 @@ class ProductCard extends Component {
       showDescriptionPopover: false,
     };
     this.overlayTarget = React.createRef();
+  }
+
+  onClickAddToCart = () => {
+    store.dispatch({
+      type: 'ADD_TO_CART',
+      payload: this.props.productDetails 
+    });
   }
 
   render() {
@@ -51,7 +59,11 @@ class ProductCard extends Component {
                 : <Skeleton />
             }
           </Card.Text>
-          <Button disabled={name === undefined} variant={"success"}>
+          <Button
+            disabled={name === undefined}
+            variant={"success"}
+            onClick={this.onClickAddToCart}
+          >
             Add to Cart
           </Button>
         </Card.Body>

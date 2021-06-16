@@ -7,12 +7,14 @@ import productsReducer from './productsReducer';
 import modalReducer from './modalReducer';
 import signinErrorReducer from './signinErrorReducer';
 import signupErrorReducer from './signupErrorReducer';
+import cartReducer from './cartReducer';
 
 const rootReducer = combineReducers({
     jwt: jwtReducer,
     profile: profileReducer,
     modalStatus: modalReducer,
     loadingBar: loadingBarReducer,
+    cartItems: cartReducer,
     signinError: signinErrorReducer,
     signupError: signupErrorReducer,
     products: productsReducer

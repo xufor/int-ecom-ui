@@ -14,7 +14,7 @@ import ProfileBox, { invertShowProfileModal } from '../ProfileBox/ProfileBox';
 import CategoriesBox from '../CatergoriesBox/CategoriesBox';
 
 
-class ApplicationBar extends Component {
+class AppBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -106,7 +106,7 @@ class ApplicationBar extends Component {
                     alt="app-logo"
                   />
                 </Badge>
-                <Badge className="text-black-50" >9</Badge>
+                <Badge className="text-black-50" >{this.props.cartItemCount}</Badge>
               </Link>
             </Nav.Link>
             <Nav>
@@ -137,7 +137,8 @@ const mapStateToProps = (state) => {
   return {
     jwt: state.jwt,
     profile: state.profile,
+    cartItemCount: state.cartItems.length
   }
 };
 
-export default connect(mapStateToProps, mapActionToProps)(ApplicationBar);
+export default connect(mapStateToProps, mapActionToProps)(AppBar);
