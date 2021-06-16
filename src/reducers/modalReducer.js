@@ -2,11 +2,12 @@ import { vars } from './commonData';
 import { SIGN_IN } from '../actions/signinAction';
 import { SIGN_UP } from '../actions/signupAction';
 
+export const SET_MODAL_STATUS = 'SET_MODAL_STATUS';
 const defaultState = { signin: false, signup: false, profile: false};
 
 const modalReducer = (state = defaultState, action) => {
     switch (action.type) {
-        case 'SET_MODAL_STATUS':
+        case SET_MODAL_STATUS:
             return action.payload;
         case SIGN_IN + vars.f:
             return defaultState;

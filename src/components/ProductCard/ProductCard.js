@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Card, Button, Badge, Popover, Overlay } from 'react-bootstrap';
 import { capitalize } from 'lodash';
 import { store } from '../../index';
+import { ADD_TO_CART } from '../../reducers/cartReducer';
 import Skeleton from 'react-loading-skeleton';
+import './style.css';
 
 class ProductCard extends Component {
   constructor(props) {
@@ -15,7 +17,7 @@ class ProductCard extends Component {
 
   onClickAddToCart = () => {
     store.dispatch({
-      type: 'ADD_TO_CART',
+      type: ADD_TO_CART,
       payload: this.props.productDetails 
     });
   }
@@ -50,7 +52,7 @@ class ProductCard extends Component {
                 ? name
                 : <Skeleton />
             }
-            <Badge className={"bg-warning p-1 ml-2"} >{review}</Badge>
+            <Badge className={"pcard-rating p-1 ml-1"} >{review}</Badge>
           </Card.Title>
           <Card.Text>
             {

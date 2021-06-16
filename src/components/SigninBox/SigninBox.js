@@ -5,11 +5,12 @@ import { bindActionCreators } from 'redux';
 
 import { store } from '../../index';
 import { signinAction } from '../../actions/signinAction';
+import { SET_MODAL_STATUS } from '../../reducers/modalReducer';
 
 export const invertShowSigninModal = () => {
   const { modalStatus } = store.getState();
   store.dispatch({
-    type: 'SET_MODAL_STATUS',
+    type: SET_MODAL_STATUS,
     payload: { ...modalStatus, signin: !modalStatus.signin }
   });
 }

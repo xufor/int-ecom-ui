@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import LoadingBar from 'react-redux-loading-bar'
 import { Link } from 'react-router-dom';
-import { isEmpty } from 'lodash';
+import { isEmpty, isNull, keys } from 'lodash';
 
 import './style.css';
 import { getProfileAction } from '../../actions/getProfileAction';
@@ -38,7 +38,7 @@ class AppBar extends Component {
   }
 
   renderDropdownItemsBasedOnLogin = () => {
-    if (this.props && this.props.jwt == null) {
+    if (!this.props.isLoggedIn) {
       return (
         <React.Fragment>
           <NavDropdown.Item onClick={invertShowSigninModal} >
@@ -135,9 +135,9 @@ const mapActionToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    jwt: state.jwt,
+    isLoggedIn: !isNull(state.jwt),
     profile: state.profile,
-    cartItemCount: state.cartItems.length
+    cartItemCount: keys(state.cartItems).length
   }
 };
 
