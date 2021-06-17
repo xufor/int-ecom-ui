@@ -11,7 +11,9 @@ import { getProfileAction } from '../../actions/getProfileAction';
 import SigninBox, { invertShowSigninModal } from '../SigninBox/SigninBox';
 import SignupBox, { invertShowSignupModal } from '../SignupBox/SignupBox';
 import ProfileBox, { invertShowProfileModal } from '../ProfileBox/ProfileBox';
+import { resetStoreAction } from '../../actions/resetStoreAction';
 import CategoriesBox from '../CatergoriesBox/CategoriesBox';
+import { persistor } from '../../index';
 
 
 class AppBar extends Component {
@@ -37,6 +39,10 @@ class AppBar extends Component {
     });
   }
 
+  onClickLogout = () => {
+    persistor.purge().then(() => this.props.resetStoreAction());
+  }
+
   renderDropdownItemsBasedOnLogin = () => {
     if (!this.props.isLoggedIn) {
       return (
@@ -56,7 +62,10 @@ class AppBar extends Component {
           <NavDropdown.Item onClick={invertShowProfileModal}>
             Profile
           </NavDropdown.Item>
-          <NavDropdown.Item>Logout</NavDropdown.Item>
+          <NavDropdown.Item>Orders</NavDropdown.Item>
+          <NavDropdown.Item onClick={this.onClickLogout}>
+            Logout
+          </NavDropdown.Item>
         </React.Fragment>
       )
     }
@@ -129,7 +138,8 @@ class AppBar extends Component {
 
 const mapActionToProps = (dispatch) => {
   return bindActionCreators({
-    getProfileAction
+    getProfileAction,
+    resetStoreAction
   }, dispatch);
 };
 
