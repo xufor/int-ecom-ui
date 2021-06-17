@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Container, Table, Image, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { isEmpty, isEqual, isNull, keys, sum, values } from 'lodash';
+import { isEmpty, isNull, keys, sum, values } from 'lodash';
 import { store } from '../../index';
 import { DECREASE_QUANTITY, INCREASE_QUANTITY } from '../../reducers/cartReducer';
 import { placeOrderAction } from '../../actions/placeOrderAction';
@@ -33,11 +33,7 @@ class CartPage extends Component {
           productid: cartItems[key].id,
           quantity: cartItems[key].quantity
         }
-      }));
-      setTimeout(() => {
-        if(isEqual(this.props.orderStatus, "success")) 
-          this.props.history.push("/");
-      }, 1000);
+      }), this.props.history);
     }
   }
 

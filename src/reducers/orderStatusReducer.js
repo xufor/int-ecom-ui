@@ -6,10 +6,10 @@ const orderReducer = (state = null, action) => {
 	switch (action.type) {
         case PLACE_ORDER + vars.f:
 			alert("The order was placed successfully.");
-            return "success";
+            return state;
 		case PLACE_ORDER + vars.r:
 			alert("Some error occured.The order could not be placed.");
-			return "failure";
+			return state;
 		default:
 			return state;
 	}

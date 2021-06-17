@@ -1,5 +1,6 @@
 import { vars } from './commonData';
 import { has, omit } from 'lodash';
+import { PLACE_ORDER } from '../actions/placeOrderAction';
 
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const INCREASE_QUANTITY = 'INCREASE_QUANTITY';
@@ -24,7 +25,7 @@ const cartReducer = (state = {}, action) => {
         return omit(state, [id]);
       else
         return {...state, [id]: { ...state[id], quantity: state[id].quantity - 1 } }
-    case 'CHECKOUT' + vars.f:
+    case PLACE_ORDER + vars.f:
       return {};
     default:
       return state;

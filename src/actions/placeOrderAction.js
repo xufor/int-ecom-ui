@@ -4,7 +4,7 @@ import { store } from '../index';
 
 export const PLACE_ORDER = 'PLACE_ORDER';
 
-export const placeOrderAction = (orderlist) => {
+export const placeOrderAction = (orderlist, history) => {
 	const responseFromServer = ax.request({
 		url: '/user/purchase',
 		baseURL: user_remote,
@@ -18,8 +18,14 @@ export const placeOrderAction = (orderlist) => {
         }
 	});
 
-	return {
-	    type: PLACE_ORDER,
-        payload: responseFromServer,
-    }
+    return (dispatch) => {
+        const response = dispatch({
+            type: PLACE_ORDER,
+            payload: responseFromServer
+        });
+
+        response.then(() => {
+            history.push('/history');
+        });
+    };
 };
