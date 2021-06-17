@@ -62,7 +62,11 @@ class AppBar extends Component {
           <NavDropdown.Item onClick={invertShowProfileModal}>
             Profile
           </NavDropdown.Item>
-          <NavDropdown.Item>Orders</NavDropdown.Item>
+          <NavDropdown.Item as={"div"}>
+            <Link to="/history" className={"text-link"}>
+              Orders
+            </Link>
+          </NavDropdown.Item>
           <NavDropdown.Item onClick={this.onClickLogout}>
             Logout
           </NavDropdown.Item>

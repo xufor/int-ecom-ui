@@ -9,12 +9,14 @@ import signinErrorReducer from './signinErrorReducer';
 import signupErrorReducer from './signupErrorReducer';
 import cartReducer from './cartReducer';
 import orderReducer from './orderStatusReducer';
+import orderHistoryReducer from './orderHistoryReducer';
 
 const rootReducer = combineReducers({
     jwt: jwtReducer,
     profile: profileReducer,
     modalStatus: modalReducer,
     orderStatus: orderReducer,
+    orderHistory: orderHistoryReducer,
     loadingBar: loadingBarReducer,
     cartItems: cartReducer,
     signinError: signinErrorReducer,

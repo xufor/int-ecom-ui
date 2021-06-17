@@ -28,7 +28,7 @@ class ProfileBox extends Component {
         <Modal.Body>
           <p>{name ? "Name: " + name : <Skeleton />}</p>
           <p>{name ? "Email: " + email : <Skeleton />}</p>
-          <p>{name ? "Date of Birth: " + new Date(dob).toDateString() : <Skeleton />}</p>
+          <p>{name ? "Date of Birth: " + new Date(dob).toLocaleDateString() : <Skeleton />}</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant={"secondary"} onClick={invertShowProfileModal}>

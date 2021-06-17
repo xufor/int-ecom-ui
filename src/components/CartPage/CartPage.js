@@ -74,7 +74,7 @@ class CartPage extends Component {
 
       return (
         <React.Fragment>
-          <h2 className={"mt-4"}>Cart</h2>
+          <h2 className={"mt-4 mb-3"}>Cart</h2>
           <Table bordered hover>
             <thead>
               <tr>
