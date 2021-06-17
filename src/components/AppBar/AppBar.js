@@ -82,6 +82,7 @@ class AppBar extends Component {
         <Navbar
           bg={"light"}
           expand={"lg"}
+          sticky={"top"}
           ref={this.overlayContainerRef}
           className={"border-bottom"}
         >
