@@ -4,18 +4,19 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isEmpty, isNull, join } from 'lodash';
 import { withRouter } from 'react-router';
+import Skeleton from 'react-loading-skeleton';
 import { getOrderHistoryAction } from '../../actions/getOrderHistoryAction';
 
 class HistoryPage extends Component {
   componentDidMount() {
-    if(!this.props.isLoggedIn)
+    if (!this.props.isLoggedIn)
       this.props.history.push('/');
     else
       this.props.getOrderHistoryAction();
   }
 
   componentDidUpdate() {
-    if(!this.props.isLoggedIn)
+    if (!this.props.isLoggedIn)
       this.props.history.push('/');
   }
 
@@ -32,11 +33,11 @@ class HistoryPage extends Component {
       let index = 1;
       let cartRows = orderHistory.map((order) => (
         <tr key={order.id}>
-          <td>{index++}</td>
-          <td>{order.id}</td>
-          <td>{new Date(order.dop).toLocaleDateString()}</td>
-          <td>{join(order.products.map((item) => item.name + "(" + item.quantity + ")"), ", ")}</td>
-          <td>₹{order.total}</td>
+          <td>{order.dop ? index++ : <Skeleton/>}</td>
+          <td>{order.dop ? order.id : <Skeleton/>}</td>
+          <td>{order.dop ? new Date(order.dop).toLocaleDateString() : <Skeleton/>}</td>
+          <td>{order.products ? join(order.products.map((item) => item.name + "(" + item.quantity + ")"), ", ") : <Skeleton/>}</td>
+          <td>{order.total ? '₹' + order.total : <Skeleton/>}</td>
         </tr>
       ));
 
