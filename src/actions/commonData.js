@@ -1,1 +1,2 @@
-export const remote = "http://ec2-13-127-53-194.ap-south-1.compute.amazonaws.com:9900";
+export const user_remote = "http://ec2-3-108-41-178.ap-south-1.compute.amazonaws.com:9903";
+export const product_remote = "ec2-13-233-62-113.ap-south-1.compute.amazonaws.com:9902";

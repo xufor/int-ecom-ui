@@ -1,5 +1,5 @@
 import ax from 'axios';
-import { remote } from './commonData';
+import { user_remote } from './commonData';
 
 export const SIGN_IN = 'SIGN_IN';
 
@@ -7,7 +7,7 @@ export const SIGN_IN = 'SIGN_IN';
 export const signinAction = (username, password) => {
 	const responseFromServer = ax.request({
 		url: '/user/signin',
-		baseURL: remote,
+		baseURL: user_remote,
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		data: {
