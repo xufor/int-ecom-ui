@@ -1,12 +1,12 @@
 import ax from 'axios';
-import { user_remote } from './commonData';
+import { remote } from './commonData';
 
 export const SIGN_UP = 'SIGN_UP';
 
 export const signupAction = (userName, password, name, email, dob) => {
 	const responseFromServer = ax.request({
 		url: '/user/signup',
-		baseURL: user_remote,
+		baseURL: remote,
 		method: 'post',
 		headers: {'Content-Type': 'application/json'},
 		data: {

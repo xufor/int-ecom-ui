@@ -1,5 +1,5 @@
 import ax from 'axios';
-import { user_remote } from './commonData';
+import { remote } from './commonData';
 import { store } from '../index';
 
 export const PLACE_ORDER = 'PLACE_ORDER';
@@ -7,7 +7,7 @@ export const PLACE_ORDER = 'PLACE_ORDER';
 export const placeOrderAction = (orderlist, history) => {
 	const responseFromServer = ax.request({
 		url: '/user/purchase',
-		baseURL: user_remote,
+		baseURL: remote,
 		method: 'post',
         headers: {
             'Content-Type': 'application/json',
