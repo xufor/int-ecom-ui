@@ -81,7 +81,7 @@ class AppBar extends Component {
         <LoadingBar style={{ backgroundColor: '#FF0000', zIndex: 55555 }} />
         <Navbar
           bg={"light"}
-          expand={"lg"}
+          expand={"sm"}
           sticky={"top"}
           ref={this.overlayContainerRef}
           className={"border-bottom"}

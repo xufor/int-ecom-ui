@@ -12,7 +12,7 @@ const productsReducer = (state = [], action) => {
 		case GET_PRODUCTS + vars.p:
 			return placeholder;
 		case GET_PRODUCTS + vars.r:
-			alert("Cannot load products. Server is not responding.")
+			alert("Server is not responding.")
 			return placeholder;
 		default:
 			return state;
